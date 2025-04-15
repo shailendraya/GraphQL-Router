@@ -13,3 +13,6 @@ npm-debug.log
 **/dist/
 logs/
 
+#router application file
+router.exe
+
