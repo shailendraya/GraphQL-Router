@@ -1,0 +1,110 @@
+[
+  {
+    "id": "1",
+    "name": "Rose",
+    "species": "Rosa",
+    "description": "Beautiful flowering plant",
+    "imageUrl": "https://example.com/rose.jpg",
+    "email": "deep.jhav@gmail.com",
+    "lastUpdated": "2022-03-24T12:00:00Z"
+  },
+  {
+    "id": "2",
+    "name": "Sunflower",
+    "species": "Helianthus annuus",
+    "description": "Bright and cheery flower",
+    "imageUrl": "https://example.com/sunflower.jpg",
+    "email": "deep.jhav@gmail.com",
+    "lastUpdated": "2022-03-24T12:00:00Z"
+  },
+  {
+    "id": "3",
+    "name": "Lavender",
+    "species": "Lavandula",
+    "description": "Fragrant herb with purple flowers",
+    "imageUrl": "https://example.com/lavender.jpg",
+    "email": "deep.jhav@gmail.com",
+    "lastUpdated": "2024-03-23T12:00:00Z"
+  },
+  {
+    "id": "4",
+    "name": "Tulip",
+    "species": "Tulipa",
+    "description": "Colorful spring flower",
+    "imageUrl": "https://example.com/tulip.jpg",
+    "email": "deep.jhav@gmail.com",
+    "lastUpdated": "2024-03-23T12:00:00Z"
+  },
+  {
+    "id": "5",
+    "name": "Orchid",
+    "species": "Orchidaceae",
+    "description": "Exotic and elegant flowering plant",
+    "imageUrl": "https://example.com/orchid.jpg",
+    "email": "deep.jhav@gmail.com",
+    "lastUpdated": "2024-03-23T12:00:00Z"
+  },
+  {
+    "id": "6",
+    "name": "Daisy",
+    "species": "Bellis perennis",
+    "description": "Simple yet charming flower",
+    "imageUrl": "https://example.com/daisy.jpg",
+    "email": "deep.jhav@gmail.com",
+    "lastUpdated": "2024-03-23T12:00:00Z"
+  },
+  {
+    "id": "7",
+    "name": "Lily",
+    "species": "Lilium",
+    "description": "Graceful and fragrant flower",
+    "imageUrl": "https://example.com/lily.jpg",
+    "email": "deep.jhav@gmail.com",
+    "lastUpdated": "2024-03-23T12:00:00Z"
+  },
+  {
+    "id": "8",
+    "name": "Carnation",
+    "species": "Dianthus caryophyllus",
+    "description": "Sweetly scented flower often used in bouquets",
+    "imageUrl": "https://example.com/carnation.jpg",
+    "email": "deep.jhav@gmail.com",
+    "lastUpdated": "2024-03-23T12:00:00Z"
+  },
+  {
+    "id": "9",
+    "name": "Pansy",
+    "species": "Viola tricolor",
+    "description": "Colorful flower with a face-like appearance",
+    "imageUrl": "https://example.com/pansy.jpg",
+    "email": "deep.jhav@gmail.com",
+    "lastUpdated": "2024-03-23T12:00:00Z"
+  },
+  {
+    "id": "10",
+    "name": "Fern",
+    "species": "Polypodiopsida",
+    "description": "Leafy green plant often found in shaded areas",
+    "imageUrl": "https://example.com/fern.jpg",
+    "email": "deep.jhav@gmail.com",
+    "lastUpdated": "2024-03-23T12:00:00Z"
+  },
+  {
+    "id": "11",
+    "name": "Cactus",
+    "species": "Cactaceae",
+    "description": "Succulent plant adapted to arid climates",
+    "imageUrl": "https://example.com/cactus.jpg",
+    "email": "deep.jhav@gmail.com",
+    "lastUpdated": "2024-03-23T12:00:00Z"
+  },
+  {
+    "name": "Aloe Vera",
+    "species": "Aloe vera",
+    "description": "Medicinal plant with succulent leaves",
+    "imageUrl": "https://example.com/aloe_vera.jpg",
+    "lastUpdated": "2024-03-23T17:32:45.677Z",
+    "email": "deep.jhav3@gmail.com",
+    "id": "1cf66bbf-f0c3-404a-aadc-7568ea5ad187"
+  }
+]

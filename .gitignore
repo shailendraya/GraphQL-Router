@@ -1,0 +1,15 @@
+# Node modules
+**/node_modules
+
+# Nested __generated__ folders
+**/__generated__
+
+npm-debug.log
+
+# PNPM
+**/package-lock.json
+
+# build
+**/dist/
+logs/
+

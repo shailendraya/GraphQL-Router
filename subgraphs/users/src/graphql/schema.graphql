@@ -1,0 +1,66 @@
+extend schema
+  @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key"])
+
+type User @key(fields: "email") {
+  id: ID!
+  email: String!
+  password: String!
+  phone: String!
+  role: UserRole
+}
+
+enum UserRole {
+  user
+  admin
+}
+
+type Address {
+  street: String!
+  suite: String!
+  city: String!
+  zipcode: String!
+  geo: Geo!
+}
+
+type Geo {
+  lat: String!
+  lng: String!
+}
+
+type Company {
+  name: String!
+  catchPhrase: String!
+  bs: String!
+}
+
+type Dummy {
+  id: ID!
+  name: String!
+  username: String!
+  email: String!
+  address: Address!
+  phone: String!
+  website: String!
+  company: Company!
+}
+
+type Query {
+  me(email: String!): User
+  dummyUser: [Dummy]
+}
+
+type Mutation {
+  registerUser(input: RegisterUserInput!): User
+  loginUser(input: LoginUserInput!): String
+}
+
+input RegisterUserInput {
+  email: String!
+  password: String!
+  phone: String!
+}
+
+input LoginUserInput {
+  email: String!
+  password: String!
+}

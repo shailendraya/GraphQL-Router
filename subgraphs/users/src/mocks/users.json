@@ -1,0 +1,28 @@
+[
+  {
+    "id": "891b1c00-188a-4f80-94fa-9ec570235d1a",
+    "email": "deep.jhav@gmail.com",
+    "password": "$2b$10$gYu.hoxoyNSV1G0K.wemNelJ2UkDvncbDXqRx6zfZGHbeXQQBUI96",
+    "phone": "9910579716",
+    "role": "admin"
+  },
+  {
+    "id": "f49ec3e1-c40b-4d4b-9511-2255d2bb7254",
+    "email": "deep.jhav2@gmail.com",
+    "password": "$2b$10$R5Qe.sa6DVS/M4XHqgOzCObat.C7fhtGF20e/ptKaR9X9n9VaV7Yu",
+    "phone": "9910579716",
+    "role": "user"
+  },
+  {
+    "id": "fe5edcdf-97ae-45e2-920b-addc93de5efd",
+    "email": "deep.jhav3@gmail.com",
+    "password": "$2b$10$Det7Y4VzAHh3BNFAvXgUveVwxuMc7H6olA73XFqFqBcs2v5iChAqS",
+    "phone": "9910579716"
+  },
+  {
+    "id": "811bdb8e-fcf5-419b-839d-86af0a3fd99a",
+    "email": "deep.jhav.ibm@gmail.com",
+    "password": "$2b$10$2v/UyArgc/UDzWButj.WZOAfX8z9Bdld3LdPIcgcq96oVPbGgkKkW",
+    "phone": "09910579716"
+  }
+]

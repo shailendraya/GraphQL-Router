@@ -1,0 +1,1 @@
+./router --config router.yaml --dev --supergraph supergraph-schema.graphql

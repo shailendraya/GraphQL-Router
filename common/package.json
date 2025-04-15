@@ -1,0 +1,29 @@
+{
+  "name": "common",
+  "version": "1.0.0",
+  "description": "Common code that can be shared amongst various sub graphs",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/datasource-rest": "^6.2.2",
+    "@apollo/subgraph": "^2.7.2",
+    "apollo-server": "^3.13.0",
+    "graphql": "^16.8.1",
+    "graphql-depth-limit": "^1.1.0",
+    "graphql-shield": "^7.6.5",
+    "graphql-tag": "^2.12.6",
+    "jsonwebtoken": "^9.0.2",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.3"
+  }
+}
+

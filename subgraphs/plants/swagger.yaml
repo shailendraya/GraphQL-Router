@@ -1,0 +1,555 @@
+openapi: 3.0.3 
+info: 
+  version: '1.0.0'
+  title: NS&I Integration Platform Layer - Get product headroom V1
+  description: API definition 
+
+servers:
+  - url: /products/v1
+
+paths: 
+  /{productId}/product-headroom: 
+    post:
+      tags: 
+        - GetProductHeadroom 
+      summary: Get Product Headroom 
+      operationId: GetProductHeadroom 
+      security: 
+        - bearerAuth: [] 
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "12345"
+        - name: channelName
+          in: header
+          description: "Name or ID of the source system application."
+          required: true
+          schema:
+            type: string
+            example: "TMApp"
+        - name: journeyId
+          in: header
+          description: "Unique Request ID for end to end tracking"
+          required: true
+          schema:
+            type: string
+            format: uuid
+            example: "3b7761e1-287b-4245-9680-1fd9720074cb"
+        - name: Authorization
+          in: header
+          description: "Placeholder for WorldLine token which will be passed to provider system."
+          required: true
+          schema:
+            type: string
+            example: "Bearer authorizationtoken"
+        - name: authTokenGW
+          in: header
+          description: "Authentication token for API gateway layer on Integration Platform"
+          required: true
+          schema:
+            type: string
+            example: "Bearer auth_tokenValue"
+        - name: requestDateTime
+          in: header
+          description: "Date time of the request format yyyy-MM-dd HH:mm:ss"
+          required: true
+          schema:
+            type: string
+            example: "2023-04-19 12:00:17"      
+        - name: channelAlternateIdentifier
+          in: header
+          description: "Holds an alternate identifier for a channel e.g. employeeId, machineId, userId etc can be supplied here. each identifier needs to be separated by a comma and each key value pair needs to be separated by a delimeter : (colon)"
+          schema:
+            type: array
+            items:
+              type: string
+              example: "employeeId:P12345,machineId:dev-int-001" 
+      requestBody:
+          description: "Details of the request"
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetHeadroomRequest"
+
+      responses: 
+        '200': 
+          description: OK 
+          headers:
+            responseDateTime:
+              description: "Date time of the response format yyyy-MM-dd HH:mm:ss"
+              required: true
+              schema:
+                type: string
+                example: "2024-12-28 12:00:17"  
+            journeyId:
+              description: "Unique Request ID supplied in the request"
+              required: true
+              schema:
+                type: string   
+                format: uuid
+                example: "3b7761e1-287b-4245-9680-1fd9720074cb"
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/GetHeadroomResponse' 
+ 
+
+        '400': 
+          description: 'Bad request, invalid or non existing parameter' 
+          headers:
+            responseDateTime:
+              description: "Date time of the response format yyyy-MM-dd HH:mm:ss"
+              required: true
+              schema:
+                type: string
+                example: "2024-12-28 12:00:17"  
+            journeyId:
+              description: "Unique Request ID supplied in the request"
+              required: true
+              schema:
+                type: string   
+                format: uuid
+                example: "3b7761e1-287b-4245-9680-1fd9720074cb"
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/errorDetails' 
+              examples:
+                Schema validation failed:
+                  value:
+                    code: "DISO.GPHR.400.000"
+                    description: "Schema validation failed for <field name>"       
+                Invalid input data at provider system:  
+                  value:
+                    code: "DISO.GPHR.400.001"
+                    description: "Invalid input data"          
+                Invalid productId:
+                  value:
+                    code: "DISO.GPHR.400.018"
+                    description: "Invalid productId"
+                Invalid saleType:
+                  value:
+                    code: "DISO.GPHR.400.019"
+                    description: "Invalid saleType"
+                primaryHolderId is required:
+                  value:
+                    code: "DISO.GPHR.400.020"
+                    description: "primaryHolderId is required when saleType is SOLE or JOINT"
+                secondaryHolderId is not requried:
+                  value:
+                    code: "DISO.GPHR.400.021"
+                    description: "secondaryHolderId must not be provided if saleType is SOLE OR MINOR"
+                Headroom cannot be retrieved:
+                  value:
+                    code: "DISO.GPHR.400.022"
+                    description: "The remaining headroom cannot be retrieved for this product"
+                Invalid combination of saleType and product:
+                  value:
+                    code: "DISO.GPHR.400.022"
+                    description: "This combination of product and sale is not allowed"
+ 
+        '401': 
+          description: 'Request lacks valid authentication credentials' 
+          headers: 
+            responseDateTime:
+              description: "Date time of the response format yyyy-MM-dd HH:mm:ss"
+              required: true
+              schema:
+                type: string
+                example: "2024-12-28 12:00:17"  
+            journeyId:
+              description: "Unique Request ID supplied in the request"
+              required: true
+              schema:
+                type: string   
+                format: uuid
+                example: "3b7761e1-287b-4245-9680-1fd9720074cb"
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/errorDetails' 
+              examples:
+                Missing Authorization token:
+                  value:
+                    code: "DISO.GPHR.401.000"
+                    description: "Missing Authorization token"              
+                Unauthorized:
+                  value:
+                    code: "DISO.GPHR.401.001"
+                    description: "Unauthorized" 
+
+        '403': 
+          description: "Access forbidden, returned when account cannot be accessed."
+          headers:
+            responseDateTime:
+              description: "Date time of the response format yyyy-MM-dd HH:mm:ss"
+              required: true
+              schema:
+                type: string
+                example: "2024-12-28 12:00:17"  
+            journeyId:
+              description: "Unique Request ID supplied in the request"
+              required: true
+              schema:
+                type: string   
+                format: uuid
+                example: "3b7761e1-287b-4245-9680-1fd9720074cb"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/errorDetails" 
+              examples:
+                No sufficient permissions:
+                  value:
+                    code: "DISO.GPHR.403.000"
+                    description: "Client/User does not have sufficient permission"
+                No sufficient rights:
+                  value:
+                    code: "DISO.GPHR.403.004"
+                    description: "You don't have sufficient rights on holder(s)"
+
+        '404': 
+          description: "No match for given request" 
+          headers:
+            responseDateTime:
+              description: "Date time of the response format yyyy-MM-dd HH:mm:ss"
+              required: true
+              schema:
+                type: string
+                example: "2024-12-28 12:00:17"  
+            journeyId:
+              description: "Unique Request ID supplied in the request"
+              required: true
+              schema:
+                type: string   
+                format: uuid
+                example: "3b7761e1-287b-4245-9680-1fd9720074cb"
+          content: 
+            application/json: 
+              schema: 
+                $ref: "#/components/schemas/errorDetails" 
+              examples:
+                Resource is not found:
+                  value:
+                    code: "DISO.GPHR.404.000"
+                    description: "Provider resource not found"
+                ProductId is not found:
+                  value:
+                    code: "DISO.GPHR.404.004"
+                    description: "ProductId not found"
+
+        '500': 
+          description: Internal server error 
+          headers:
+            responseDateTime:
+              description: "Date time of the response format yyyy-MM-dd HH:mm:ss"
+              required: true
+              schema:
+                type: string
+                example: "2024-12-28 12:00:17"  
+            journeyId:
+              description: "Unique Request ID supplied in the request"
+              required: true
+              schema:
+                type: string   
+                format: uuid
+                example: "3b7761e1-287b-4245-9680-1fd9720074cb"
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/errorDetails' 
+              examples:
+                Provider system Internal Error:
+                  value:
+                    code: "DISO.GPHR.500.000"
+                    description: "Internal server error"
+                Unknown error from Integration Platform:
+                  value:
+                    code: "DISO.GPHR.500.001"
+                    description: "Unknown error"
+                Connection time out:
+                  value:
+                    code: "DISO.GPHR.500.003"
+                    description: "Connection timeout"
+                Socket error:
+                  value:
+                    code: "DISO.GPHR.500.004"
+                    description: "Socket error" 
+                Provider response schema error:
+                  value:
+                    code: "DISO.GPHR.500.005"
+                    description: "Provider response schema validation failure"
+
+        '503': 
+          description: Unable to connect to upstream service layer 
+          headers:
+            responseDateTime:
+              description: "Date time of the response format yyyy-MM-dd HH:mm:ss"
+              required: true
+              schema:
+                type: string
+                example: "2024-12-28 12:00:17"  
+            journeyId:
+              description: "Unique Request ID supplied in the request"
+              required: true
+              schema:
+                type: string   
+                format: uuid
+                example: "3b7761e1-287b-4245-9680-1fd9720074cb"
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/errorDetails' 
+              examples:                
+                Provider service unavailable:
+                  value:
+                    code: "DISO.GPHR.503.000"
+                    description: "Provider system service is unavailable" 
+
+components:
+  securitySchemes: 
+    bearerAuth: 
+      type: http
+      scheme: bearer 
+      bearerFormat: JWT 
+
+  schemas: 
+  
+    GetHeadroomRequest:
+      type: object
+      description: request
+      properties:
+        saleType:
+          description: "Sale Type"
+          type: string
+          enum:
+            - SOLE
+            - JOINT
+            - MINOR
+          example: "SOLE"
+        primaryHolderId:
+          description: "Primary holder customer Id of an existing customer. If headroom is calculated for a new customer (e.g., a new child), it must be empty. Note: It is not UCI."
+          type: string
+          example: "2512525"
+        secondaryHolderId:
+          description: "Second Investor Id of an existing customer. It must be empty if the Second Investor is a new customer. Note: It is not UCI."
+          type: string
+          example: "2512525"
+      required:
+        - saleType
+
+    GetHeadroomResponse: 
+      description: response
+      type: object
+      properties:
+        currency:
+          type: string
+          description: 'Limit amount currency (format: ISO 4217 currency)'
+          enum:
+            - AED # UAE Dirham
+            - AFN # Afghani
+            - ALL # Lek
+            - AMD # Armenian Dram
+            - ANG # Netherlands Antillean Guilder
+            - AOA # Kwanza
+            - ARS # Argentine Peso
+            - AUD # Australian Dollar
+            - AWG # Aruban Florin
+            - AZN # Azerbaijan Manat
+            - BAM # Convertible Mark
+            - BBD # Barbados Dollar
+            - BDT # Taka
+            - BGN # Bulgarian Lev
+            - BHD # Bahraini Dinar
+            - BIF # Burundi Franc
+            - BMD # Bermudian Dollar
+            - BND # Brunei Dollar
+            - BOB # Boliviano
+            - BOV # Mvdol
+            - BRL # Brazilian Real
+            - BSD # Bahamian Dollar
+            - BTN # Ngultrum
+            - BWP # Pula
+            - BYN # Belarusian Ruble
+            - BZD # Belize Dollar
+            - CAD # Canadian Dollar
+            - CDF # Congolese Franc
+            - CHE # WIR Euro
+            - CHF # Swiss Franc
+            - CHW # WIR Franc
+            - CLF # Unidad de Fomento
+            - CLP # Chilean Peso
+            - CNY # Yuan Renminbi
+            - COP # Colombian Peso
+            - COU # Unidad de Valor Real
+            - CRC # Costa Rican Colon
+            - CUC # Peso Convertible
+            - CUP # Cuban Peso
+            - CVE # Cabo Verde Escudo
+            - CZK # Czech Koruna
+            - DJF # Djibouti Franc
+            - DKK # Danish Krone
+            - DOP # Dominican Peso
+            - DZD # Algerian Dinar
+            - EGP # Egyptian Pound
+            - ERN # Nakfa
+            - ETB # Ethiopian Birr
+            - EUR # Euro
+            - FJD # Fiji Dollar
+            - FKP # Falkland Islands Pound
+            - GBP # Pound Sterling
+            - GEL # Lari
+            - GHS # Ghana Cedi
+            - GIP # Gibraltar Pound
+            - GMD # Dalasi
+            - GNF # Guinean Franc
+            - GTQ # Quetzal
+            - GYD # Guyana Dollar
+            - HKD # Hong Kong Dollar
+            - HNL # Lempira
+            - HRK # Kuna
+            - HTG # Gourde
+            - HUF # Forint
+            - IDR # Rupiah
+            - ILS # New Israeli Sheqel
+            - INR # Indian Rupee
+            - IQD # Iraqi Dinar
+            - IRR # Iranian Rial
+            - ISK # Iceland Krona
+            - JMD # Jamaican Dollar
+            - JOD # Jordanian Dinar
+            - JPY # Yen
+            - KES # Kenyan Shilling
+            - KGS # Som
+            - KHR # Riel
+            - KMF # Comorian Franc
+            - KPW # North Korean Won
+            - KRW # Won
+            - KWD # Kuwaiti Dinar
+            - KYD # Cayman Islands Dollar
+            - KZT # Tenge
+            - LAK # Lao Kip
+            - LBP # Lebanese Pound
+            - LKR # Sri Lanka Rupee
+            - LRD # Liberian Dollar
+            - LSL # Loti
+            - LYD # Libyan Dinar
+            - MAD # Moroccan Dirham
+            - MDL # Moldovan Leu
+            - MGA # Malagasy Ariary
+            - MKD # Denar
+            - MMK # Kyat
+            - MNT # Tugrik
+            - MOP # Pataca
+            - MRU # Ouguiya
+            - MUR # Mauritius Rupee
+            - MVR # Rufiyaa
+            - MWK # Malawi Kwacha
+            - MXN # Mexican Peso
+            - MXV # Mexican Unidad de Inversion (UDI)
+            - MYR # Malaysian Ringgit
+            - MZN # Mozambique Metical
+            - NAD # Namibia Dollar
+            - NGN # Naira
+            - NIO # Cordoba Oro
+            - NOK # Norwegian Krone
+            - NPR # Nepalese Rupee
+            - NZD # New Zealand Dollar
+            - OMR # Rial Omani
+            - PAB # Balboa
+            - PEN # Sol
+            - PGK # Kina
+            - PHP # Philippine Peso
+            - PKR # Pakistan Rupee
+            - PLN # Zloty
+            - PYG # Guarani
+            - QAR # Qatari Rial
+            - RON # Romanian Leu
+            - RSD # Serbian Dinar
+            - RUB # Russian Ruble
+            - RWF # Rwanda Franc
+            - SAR # Saudi Riyal
+            - SBD # Solomon Islands Dollar
+            - SCR # Seychelles Rupee
+            - SDG # Sudanese Pound
+            - SEK # Swedish Krona
+            - SGD # Singapore Dollar
+            - SHP # Saint Helena Pound
+            - SLL # Leone
+            - SOS # Somali Shilling
+            - SRD # Surinam Dollar
+            - SSP # South Sudanese Pound
+            - STN # Dobra
+            - SVC # El Salvador Colon
+            - SYP # Syrian Pound
+            - SZL # Lilangeni
+            - THB # Baht
+            - TJS # Somoni
+            - TMT # Turkmenistan New Manat
+            - TND # Tunisian Dinar
+            - TOP # Pa’anga
+            - TRY # Turkish Lira
+            - TTD # Trinidad and Tobago Dollar
+            - TWD # New Taiwan Dollar
+            - TZS # Tanzanian Shilling
+            - UAH # Hryvnia
+            - UGX # Uganda Shilling
+            - USD # US Dollar
+            - USN # US Dollar (Next day)
+            - UYI # Uruguay Peso en Unidades Indexadas (UI)
+            - UYU # Peso Uruguayo
+            - UYW # Unidad Previsional
+            - UZS # Uzbekistan Sum
+            - VES # Bolívar Soberano
+            - VND # Dong
+            - VUV # Vatu
+            - WST # Tala
+            - XAF # CFA Franc BEAC
+            - XAG # Silver
+            - XAU # Gold
+            - XBA # Bond Markets Unit European Composite Unit (EURCO)
+            - XBB # Bond Markets Unit European Monetary Unit (E.M.U.-6)
+            - XBC # Bond Markets Unit European Unit of Account 9 (E.U.A.-9)
+            - XBD # Bond Markets Unit European Unit of Account 17 (E.U.A.-17)
+            - XCD # East Caribbean Dollar
+            - XDR # SDR (Special Drawing Right)
+            - XOF # CFA Franc BCEAO
+            - XPD # Palladium
+            - XPF # CFP Franc
+            - XPT # Platinum
+            - XSU # Sucre
+            - XTS # Codes specifically reserved for testing purposes
+            - XUA # ADB Unit of Account
+            - XXX # The codes assigned for transactions where no currency is involved
+            - YER # Yemeni Rial
+            - ZAR # Rand
+            - ZMW # Zambian Kwacha
+            - ZWL # Zimbabwe Dollar
+        currentHeadroom:
+          type: number
+          format: double
+          description: 'Headroom value for account (fraction can have 2 digits and must be separated with “.” e.g. 128.46)'
+          example: 128.46
+ 
+    
+    errorDetails:
+      description: "Returned when an error occurs"
+      type: array
+      items:
+        type: object
+        properties:
+          code:
+            description: "schema validation failure scenario"
+            type: string
+            example: "DISO.GPHR.400.001"
+          description:
+            description: "Description of the error"
+            type: string
+            example: "Invalid input data"
+        required:
+            - code
+            - description

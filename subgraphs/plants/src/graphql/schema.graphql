@@ -1,0 +1,43 @@
+extend schema
+  @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key"])
+directive @cost(
+  complexity: Int
+  # Define multiplier and limiter options
+  multiplier: Float
+  limiter: Float
+) on FIELD_DEFINITION
+
+type User @key(fields: "email") {
+  email: String!
+}
+
+type Plant @key(fields: "email") {
+  id: ID!
+  name: String!
+  species: String!
+  description: String
+  imageUrl: String
+  email: String!
+  lastUpdated: String!
+  user: User
+}
+
+input PlantInput {
+  name: String!
+  species: String!
+  description: String
+  imageUrl: String
+}
+
+type Query {
+  getPlants: [Plant!]! @cost(complexity: 1, multiplier: 2)
+  getPlantById(id: ID!): Plant
+}
+
+type Mutation {
+  addPlant(input: PlantInput!, userId: ID!): Plant!
+    @cost(complexity: 20, multiplier: 1.5)
+
+  updatePlant(id: ID!, input: PlantInput!, userId: ID!): Plant!
+    @cost(complexity: 30, limiter: 500)
+}

@@ -1,0 +1,113 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,600;1,400;1,600&display=swap");
+
+@tailwind base;
+@layer base {
+  html {
+    @apply text-[#878d9a];
+  }
+}
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: Roboto, system-ui, sans-serif;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: "Roboto", "Segoe UI", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+input,
+textarea {
+  padding-left: 0.6rem;
+  padding-right: 0.6rem;
+}
+select {
+  padding-left: 0.6rem;
+  padding-right: 1.2rem;
+}
+
+.progressbar {
+  margin: 50px 0 50px 0;
+  counter-reset: step;
+}
+.progressbar li {
+  list-style-type: none;
+  width: 25%;
+  float: left;
+  font-size: 12px;
+  position: relative;
+  text-align: center;
+  text-transform: uppercase;
+  color: #7d7d7d;
+}
+.progressbar li:before {
+  width: 15px;
+  height: 15px;
+  content: "";
+  line-height: 30px;
+  border: 2px solid #7d7d7d;
+  background-color: #7d7d7d;
+  display: block;
+  text-align: center;
+  margin: 0 auto 10px auto;
+  border-radius: 50%;
+  transition: all 0.8s;
+}
+.progressbar li:after {
+  width: 100%;
+  height: 2px;
+  content: "";
+  position: absolute;
+  background-color: #7d7d7d;
+  top: 7px;
+  left: -50%;
+  z-index: 10;
+  transition: all 0.8s;
+}
+.progressbar li:first-child:after {
+  content: none;
+}
+.progressbar li.active:before {
+  border-color: #55b776;
+  background-color: #55b776;
+  transition: all 0.8s;
+}
+.progressbar li.active:after {
+  background-color: #55b776;
+  transition: all 0.8s;
+}
+
+.btn {
+  background-color: #55b776;
+  margin: 5px;
+  width: 75px;
+  color: white;
+}
+.btn:hover {
+  color: white;
+}
+.btn:focus {
+  color: white;
+}
+.btn-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+body {
+  background-color: #333333;
+}

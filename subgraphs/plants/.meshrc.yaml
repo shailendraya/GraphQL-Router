@@ -1,0 +1,12 @@
+sources:
+  - name: Rest
+    handler:
+      openapi:
+        source: ./swagger.yaml
+        # endpoint: '{env.REST_URL}/api/'
+        # operationHeaders:
+        #   Authorization-Header: '{context.headers.authorization}'
+        #   Authorization-Cookie: Bearer {context.cookies.accessToken}
+ 
+# You can provide a custom fetch function to override the default fetch function
+# customFetch: ./src/custom-fetch.ts

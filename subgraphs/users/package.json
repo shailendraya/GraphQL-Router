@@ -1,0 +1,38 @@
+{
+  "name": "users",
+  "version": "1.0.0",
+  "description": "Users sub graph for plants-site",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate": "graphql-codegen",
+    "build": "npm run generate && tsc --build tsconfig.build.json && npm run schema:copy-files",
+    "schema:copy-files": "shx cp ./src/graphql/*.graphql ./dist/graphql",
+    "schema:output": "node -e 'require(\"./dist/utils/schema\").writeSchema()'",
+    "start:dev": "nodemon --watch \"src/**\" --ext \"ts,json,graphql\" --exec \"npm run build && npm run start\" --ignore ./__generated__/  --ignore mocks/ ",
+    "start": "node dist/server.js"
+  },
+  "keywords": [],
+  "author": "Deepak Jha",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/subgraph": "^2.7.2",
+    "apollo-server": "^3.13.0",
+    "bcrypt": "^5.1.1",
+    "common": "workspace:^",
+    "graphql": "^16.8.1",
+    "graphql-depth-limit": "^1.1.0",
+    "graphql-tag": "^2.12.6",
+    "path": "^0.12.7",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.2",
+    "@graphql-codegen/typescript": "^4.0.6",
+    "@graphql-codegen/typescript-resolvers": "^4.0.6",
+    "nodemon": "^3.1.0",
+    "shx": "^0.3.4",
+    "ts-node": "10.9.2",
+    "typescript": "5.4.3"
+  }
+}
